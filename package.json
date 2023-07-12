@@ -1,0 +1,39 @@
+{
+  "name": "unify-emitter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:release": "tsup ./src/index.ts --format cjs,esm --dts",
+    "build:lint": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EyadRealHim/unify-emitter.git"
+  },
+  "author": "EyadRealHim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EyadRealHim/unify-emitter/issues"
+  },
+  "homepage": "https://github.com/EyadRealHim/unify-emitter#readme",
+  "devDependencies": {
+    "typescript": "^5.1.6",
+    "tsup": "^7.1.0"
+  },
+  "keywords": [
+    "unify-emitter",
+    "event",
+    "event-emitter",
+    "event-handling",
+    "event-system",
+    "event-driven",
+    "publish-subscribe",
+    "callbacks",
+    "listeners",
+    "messaging",
+    "inter-component communication"
+  ]
+}
