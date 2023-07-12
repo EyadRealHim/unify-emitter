@@ -1,9 +1,10 @@
 # Unify Emitter
 
+Unify Emitter is a lightweight event emitter package that provides a simple and unified API for managing and emitting events. It works seamlessly in both Node.js and browser environments, allowing easy communication between components, modules, or different parts of your application.
+
 [![npm version](https://badge.fury.io/js/unify-emitter.svg)](https://www.npmjs.com/package/unify-emitter)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Unify Emitter is a lightweight event emitter package that provides a simple and unified API for managing and emitting events. It works seamlessly in both Node.js and browser environments, allowing easy communication between components, modules, or different parts of your application.
 
 ## Features
 
