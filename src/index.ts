@@ -1,13 +1,10 @@
-type ExtractEvent<T, E extends keyof T> = T[Extract<E, string | symbol>];
+type ExtractEvent<T, E extends keyof T> = T[Extract<E, PropertyKey>];
 type Callback<T> = (data: T) => void;
 
 /**
  * @template T - The event type definition.
  */
-export default class UnifyEmitter<
-  T extends Record<PropertyKey, unknown>,
-  E extends keyof T = keyof T
-> {
+export default class UnifyEmitter<T extends Record<PropertyKey, unknown>> {
   /**
    * @protected
    * @private
@@ -22,7 +19,7 @@ export default class UnifyEmitter<
    * @protected
    * @private
    */
-  protected readonly events = new Map<keyof T, Callback<ExtractEvent<T, E>>[]>();
+  protected readonly events = new Map<keyof T, Callback<ExtractEvent<T, keyof T>>[]>();
 
   /**
    * Subscribes to an event and adds the listener to the beginning of the listeners array.
@@ -32,10 +29,10 @@ export default class UnifyEmitter<
    * @param listener - The event listener callback.
    * @returns The provided listener.
    */
-  prependOn(event: E, listener: Callback<ExtractEvent<T, E>>): typeof listener {
+  prependOn<E extends keyof T>(event: E, listener: Callback<ExtractEvent<T, E>>): typeof listener {
     const listeners = this.events.get(event) || [];
 
-    listeners.unshift(listener);
+    listeners.unshift(listener as Callback<ExtractEvent<T, keyof T>>);
 
     this.events.set(event, listeners);
 
@@ -50,7 +47,7 @@ export default class UnifyEmitter<
    * @param event - The event to subscribe to.
    * @param listener - The event listener callback.
    */
-  prependOnce(event: E, listener: Callback<ExtractEvent<T, E>>): void {
+  prependOnce<E extends keyof T>(event: E, listener: Callback<ExtractEvent<T, E>>): void {
     const listeners = this.events.get(event) || [];
 
     const wrapper: Callback<ExtractEvent<T, E>> = (data) => {
@@ -58,7 +55,7 @@ export default class UnifyEmitter<
       listener(data);
     };
 
-    listeners.unshift(wrapper);
+    listeners.unshift(wrapper as Callback<ExtractEvent<T, keyof T>>);
 
     this.events.set(event, listeners);
   }
@@ -76,7 +73,7 @@ export default class UnifyEmitter<
    * a warning is logged and the listener is not added.
    *
    */
-  on(event: E, listener: Callback<ExtractEvent<T, E>>): typeof listener {
+  on<E extends keyof T>(event: E, listener: Callback<ExtractEvent<T, E>>): typeof listener {
     const listeners = this.events.get(event) || [];
     const metadata = this.eventsMetadata.get(event);
 
@@ -89,7 +86,7 @@ export default class UnifyEmitter<
       return listener;
     }
 
-    listeners.push(listener);
+    listeners.push(listener as Callback<ExtractEvent<T, keyof T>>);
 
     this.events.set(event, listeners);
 
@@ -103,7 +100,7 @@ export default class UnifyEmitter<
    * @param event - The event to subscribe to.
    * @param listener - The event listener callback.
    */
-  once(event: E, listener: Callback<ExtractEvent<T, E>>) {
+  once<E extends keyof T>(event: E, listener: Callback<ExtractEvent<T, E>>) {
     const listeners = this.events.get(event) || [];
 
     const wrapper = (data: ExtractEvent<T, E>) => {
@@ -111,7 +108,7 @@ export default class UnifyEmitter<
       listener(data);
     };
 
-    listeners.push(wrapper);
+    listeners.push(wrapper as Callback<ExtractEvent<T, keyof T>>);
 
     this.events.set(event, listeners);
   }
@@ -123,7 +120,7 @@ export default class UnifyEmitter<
    * @param event - The event to unsubscribe from.
    * @param listener - The event listener callback to remove.
    */
-  off(event: E, listener: Callback<ExtractEvent<T, E>>) {
+  off<E extends keyof T>(event: E, listener: Callback<ExtractEvent<T, E>>) {
     const listeners = this.events.get(event) || [];
 
     this.events.set(
@@ -140,7 +137,7 @@ export default class UnifyEmitter<
    * @param data - The data to pass to the event listeners.
    * @param [doCopy=false] - Whether to perform a deep copy of the data before passing it to the listeners.
    */
-  emit(event: E, data: ExtractEvent<T, E>, doCopy: boolean = false) {
+  emit<E extends keyof T>(event: E, data: ExtractEvent<T, E>, doCopy: boolean = false) {
     const listeners = this.events.get(event) || [];
 
     for (let listener of listeners) {
@@ -155,7 +152,7 @@ export default class UnifyEmitter<
    * @param event - The event to retrieve listeners for.
    * @returns An array of listeners for the specified event.
    */
-  listeners(event: E): Callback<ExtractEvent<T, E>>[] {
+  listeners<E extends keyof T>(event: E): Callback<ExtractEvent<T, E>>[] {
     return this.events.get(event) || [];
   }
 
@@ -166,7 +163,7 @@ export default class UnifyEmitter<
    * @param event - The event to count listeners for.
    * @returns The number of listeners for the specified event.
    */
-  listenerCount(event: E): number {
+  listenerCount<E extends keyof T>(event: E): number {
     return this.listeners(event).length;
   }
 
@@ -176,7 +173,7 @@ export default class UnifyEmitter<
    * @template The event name. If not provided, all listeners for all events will be removed.
    * @param [event] - The event to remove listeners for.
    */
-  removeListeners(event?: E): void {
+  removeListeners<E extends keyof T>(event?: E): void {
     if (event) {
       this.events.delete(event);
     } else {
@@ -191,7 +188,7 @@ export default class UnifyEmitter<
    * @param {E} event - The event to set the maximum number of listeners for.
    * @param {number} maxListeners - The maximum number of listeners allowed for the specified event.
    */
-  setMaxListeners(event: E, maxListeners: number): void {
+  setMaxListeners<E extends keyof T>(event: E, maxListeners: number): void {
     const metadata = this.eventsMetadata.get(event) || {
       maxListeners,
     };
