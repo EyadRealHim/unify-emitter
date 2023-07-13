@@ -27,7 +27,7 @@ Here's a basic example demonstrating how to use Unify Emitter:
 
 ```typescript
 // Import the createUnifyEmitter class
-import { createUnifyEmitter } from "../dist";
+import { createUnifyEmitter } from "unify-emitter";
 
 // Create an instance of UnifyEmitter
 const emitter = createUnifyEmitter<{ myEvent: string }>();
