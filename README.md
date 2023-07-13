@@ -5,7 +5,6 @@ Unify Emitter is a lightweight event emitter package that provides a simple and 
 [![npm version](https://badge.fury.io/js/unify-emitter.svg)](https://www.npmjs.com/package/unify-emitter)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-
 ## Features
 
 - **Cross-Platform**: Works in both Node.js and browser environments.
@@ -27,13 +26,11 @@ npm install unify-emitter
 Here's a basic example demonstrating how to use Unify Emitter:
 
 ```typescript
-// Import the UnifyEmitter class
-import UnifyEmitter from "unify-emitter";
+// Import the createUnifyEmitter class
+import { createUnifyEmitter } from "../dist";
 
 // Create an instance of UnifyEmitter
-const emitter = new UnifyEmitter<{
-  myEvent: string;
-}>();
+const emitter = createUnifyEmitter<{ myEvent: string }>();
 
 // Subscribe to the 'myEvent' event
 emitter.on("myEvent", (data) => {

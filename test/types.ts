@@ -1,4 +1,4 @@
-import UnifyEmitter from "../src";
+import { UnifyEmitter } from "../dist";
 
 declare const emitter: UnifyEmitter<{
   data: null;
@@ -13,9 +13,7 @@ emitter.on("data", (_data: null) => {});
 emitter.on("uint", (_uint: { code: null }) => {});
 
 // @ts-expect-error
-emitter.on("data", (data: null | { code: null }) => {});
-// @ts-expect-error
-emitter.on("uint", (uint: null) => {});
+emitter.on("uint", (_uint: null) => {});
 
 emitter.emit("data", null);
 

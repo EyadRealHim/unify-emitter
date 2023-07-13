@@ -1,9 +1,7 @@
-import UnifyEmitter from "../dist";
+import { createUnifyEmitter } from "../dist";
 
 // Create an instance of UnifyEmitter
-const emitter = new UnifyEmitter<{
-  myEvent: string;
-}>();
+const emitter = createUnifyEmitter<{ myEvent: string }>();
 
 // Subscribe to the 'myEvent' event + Define an event listener function
 const eventListener = emitter.on("myEvent", (data) => {

@@ -1,7 +1,7 @@
-import UnifyEmitter from "../dist";
+import { createUnifyEmitter } from "../dist";
 
 // Create an instance of UnifyEmitter
-const emitter = new UnifyEmitter<{ myEvent: string }>();
+const emitter = createUnifyEmitter<{ myEvent: string }>();
 
 // Set the maximum number of listeners for the 'myEvent' event to 2
 emitter.setMaxListeners("myEvent", 2);
