@@ -1,43 +1,60 @@
-import { createUnifyEmitter, mergeUnifyEmitter } from "../dist";
+import UnifyEmitter, { EventsObject } from "../dist";
 
-let a = {
-  a: 1,
-  ...createUnifyEmitter<{
-    a: "A";
-  }>(),
-};
+interface EntityEvents {
+  move: {
+    /**
+     * The entity's position on the y-axis.
+     */
+    x: number;
+    /**
+     * The entity's position on the x-axis.
+     */
+    y: number;
+  };
+}
 
-let b = {
-  b: 2,
-  ...createUnifyEmitter<{
-    b: "B";
-  }>(),
-};
+interface PlayerEvents {
+  punch: {
+    /**
+     * The direction of the player's punch represented in a 3D coordinate system (x, y, z).
+     * The values represent the direction along each axis.
+     */
+    direction: [number, number, number];
+    /**
+     * The strength or force of the punch.
+     */
+    force: number;
+  };
+}
 
-let c = mergeUnifyEmitter({ ...a, ...b }, a, b);
+class Entity<T extends EventsObject> extends UnifyEmitter<T & EntityEvents> {}
 
-c.a == a.a;
-c.b == b.b;
+class Player extends Entity<PlayerEvents> {}
 
-// @ts-expect-error
-c.d;
-// @ts-expect-error
-b.a;
-// @ts-expect-error
-a.b;
-
-c.emit("a", "A");
-c.emit("b", "B");
-
-c.on("a", (_data: "A") => {});
-c.on("b", (_data: "B") => {});
-
-// @ts-expect-error
-c.emit("b", "A");
-// @ts-expect-error
-c.emit("a", "B");
+const entity = new Entity();
+const player = new Player();
 
 // @ts-expect-error
-c.on("b", (_data: "A") => {});
+entity.on("punch", () => {});
+
 // @ts-expect-error
-c.on("a", (_data: "B") => {});
+entity.on("move", (data: {}) => {});
+
+// @ts-expect-error
+entity.emit("punch", {
+  direction: [0, 1, 3],
+  force: 3,
+});
+
+player.emit("punch", {
+  direction: [0, 1, 3],
+  force: 3,
+});
+
+// @ts-expect-error
+player.emit("punch", null);
+
+player.emit("move", {
+  x: 0,
+  y: 0,
+});

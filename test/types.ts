@@ -1,4 +1,4 @@
-import { UnifyEmitter } from "../dist";
+import UnifyEmitter from "../dist";
 
 declare const emitter: UnifyEmitter<{
   data: null;
