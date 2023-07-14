@@ -1,14 +1,18 @@
 type ExtractEvent<T, E extends keyof T> = T[Extract<E, PropertyKey>];
 type Callback<T> = (data: T) => void;
-type EventsObject = {};
-declare class UnifyEmitter<T extends EventsObject> {
+/**
+ * @template TBase The events that base class have and should not be overwritten
+ * @template TExtends The events subclass have and cans be ignored if one of its properties matches TBase properties
+ */
+type EventsObject<TBase, TExtends> = {
+    [k in Exclude<keyof TExtends, keyof TBase>]: TExtends[k];
+} & TBase;
+type NoSharedProperties<T, U> = Extract<keyof T, keyof U> extends never ? T : never;
+declare class UnifyEmitter<T extends {}> {
     protected readonly events: Map<keyof T, Callback<ExtractEvent<T, keyof T>>[]>;
     protected readonly eventsMetadata: Map<keyof T, {
         maxListeners: number;
     }>;
-    __events_type<E extends keyof T>(_record: {
-        [k in E]: T[k];
-    }): void;
     /**
      * Subscribes to an event and adds the listener to the beginning of the listeners array.
      *
@@ -99,4 +103,4 @@ declare class UnifyEmitter<T extends EventsObject> {
     setMaxListeners<E extends keyof T>(event: E, maxListeners: number): void;
 }
 
-export { Callback, EventsObject, ExtractEvent, UnifyEmitter as default };
+export { Callback, EventsObject, ExtractEvent, NoSharedProperties, UnifyEmitter as default };

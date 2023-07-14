@@ -1,13 +1,13 @@
 {
   "name": "unify-emitter",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Unify Emitter is a lightweight event emitter package that provides a simple and unified API for managing and emitting events. It works seamlessly in both Node.js and browser environments, allowing easy communication between components, modules, or different parts of your application.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build:compile": "tsup ./src/index.ts --format cjs,esm --dts",
-    "build:release": "pnpm run build:lint && pnpm run build:compile && pnpm run build:lint",
+    "build:release": "pnpm run build:compile && pnpm run build:lint",
     "build:publish": "pnpm run build:release && npm publish --access=public",
     "build:lint": "tsc"
   },

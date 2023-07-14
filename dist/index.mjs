@@ -4,8 +4,6 @@ var UnifyEmitter = class {
     this.events = /* @__PURE__ */ new Map();
     this.eventsMetadata = /* @__PURE__ */ new Map();
   }
-  __events_type(_record) {
-  }
   /**
    * Subscribes to an event and adds the listener to the beginning of the listeners array.
    *
