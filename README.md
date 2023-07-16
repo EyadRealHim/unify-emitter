@@ -196,6 +196,4 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-You can customize and expand upon this README template based on the specific details and features of your `UnifyEmitter` package.
+This project is licensed under the MIT License. See the [MIT LICENSE](https://opensource.org/licenses/MIT)
